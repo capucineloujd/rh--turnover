@@ -1,0 +1,15 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# environnement virtuel
+.venv
+
+# Fichier et dossier inutiles à partager  
+data_raw/
+.python-version
+catboost_info/
