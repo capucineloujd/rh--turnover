@@ -1,7 +1,6 @@
 import pandas as pd
 from catboost import CatBoostClassifier
 
-from src.config import SEUIL_FINAL
 
 # Colonnes supprimées lors de la sélection de features (faible importance)
 FEATURES_A_SUPPRIMER = [

@@ -46,5 +46,8 @@ jobs:
       - name: Sauvegarder le modèle
         run: uv run python save_model.py
 
+      - name: Vérifier le style du code
+        run: uv run ruff check src/ app/ tests/
+
       - name: Lancer les tests
         run: uv run pytest tests/ -v
