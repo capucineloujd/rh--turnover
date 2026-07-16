@@ -10,7 +10,6 @@ wheels/
 .venv
 
 # Fichier et dossier inutiles à partager  
-data_raw/
 .python-version
 catboost_info/
 app/model.pkl
