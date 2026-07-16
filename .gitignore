@@ -13,3 +13,4 @@ wheels/
 data_raw/
 .python-version
 catboost_info/
+app/model.pkl
