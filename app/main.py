@@ -1,0 +1,59 @@
+import joblib
+import pandas as pd
+import psycopg2
+from fastapi import FastAPI
+from app.schemas import EmployeeInput, PredictionOutput
+from src.config import SEUIL_FINAL
+
+app = FastAPI(title="RH Turnover API", description="Prédit la probabilité qu'un employé quitte l'entreprise.")
+
+model = joblib.load("app/model.pkl")
+
+conn = psycopg2.connect(
+    dbname="rh_turnover",
+    user="rh_user",
+    password="rh_password",
+    host="localhost"
+)
+
+COLUMN_RENAME = {
+    "statut_marital_Divorcé_e": "statut_marital_Divorcé(e)",
+    "poste_Directeur_Technique": "poste_Directeur Technique",
+    "poste_Représentant_Commercial": "poste_Représentant Commercial",
+    "poste_Tech_Lead": "poste_Tech Lead",
+}
+
+
+@app.get("/")
+def health_check():
+    return {"status": "ok"}
+
+
+@app.post("/predict", response_model=PredictionOutput)
+def predict(employee: EmployeeInput) -> PredictionOutput:
+    data = pd.DataFrame([employee.model_dump()]).rename(columns=COLUMN_RENAME)
+    proba = model.predict_proba(data)[0, 1]
+    alerte = bool(proba >= SEUIL_FINAL)
+
+    cur = conn.cursor()
+    cur.execute("""
+        INSERT INTO predictions (
+            heure_supplementaires, annee_experience_totale,
+            ratio_evolution, ratio_relation_manager,
+            probabilite_depart, alerte
+        ) VALUES (%s, %s, %s, %s, %s, %s)
+    """, (
+        employee.heure_supplementaires,
+        employee.annee_experience_totale,
+        employee.ratio_evolution,
+        employee.ratio_relation_manager,
+        round(float(proba), 3),
+        alerte,
+    ))
+    conn.commit()
+    cur.close()
+
+    return PredictionOutput(
+        probabilite_depart=round(float(proba), 3),
+        alerte=alerte,
+    )
