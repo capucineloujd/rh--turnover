@@ -1,13 +1,11 @@
-import joblib
 import pandas as pd
 import psycopg2
 from fastapi import FastAPI
 from app.schemas import EmployeeInput, PredictionOutput
+from app.model import model
 from src.config import SEUIL_FINAL, DB_HOST, DB_NAME, DB_USER, DB_PASSWORD
 
 app = FastAPI(title="RH Turnover API", description="Prédit la probabilité qu'un employé quitte l'entreprise.")
-
-model = joblib.load("app/model.pkl")
 
 conn = psycopg2.connect(
     dbname=DB_NAME,
