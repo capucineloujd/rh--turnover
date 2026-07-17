@@ -13,3 +13,7 @@ wheels/
 .python-version
 catboost_info/
 app/model.pkl
+.env
+.env.dev
+.env.test
+.env.prod

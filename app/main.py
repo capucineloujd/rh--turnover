@@ -3,17 +3,17 @@ import pandas as pd
 import psycopg2
 from fastapi import FastAPI
 from app.schemas import EmployeeInput, PredictionOutput
-from src.config import SEUIL_FINAL
+from src.config import SEUIL_FINAL, DB_HOST, DB_NAME, DB_USER, DB_PASSWORD
 
 app = FastAPI(title="RH Turnover API", description="Prédit la probabilité qu'un employé quitte l'entreprise.")
 
 model = joblib.load("app/model.pkl")
 
 conn = psycopg2.connect(
-    dbname="rh_turnover",
-    user="rh_user",
-    password="rh_password",
-    host="localhost"
+    dbname=DB_NAME,
+    user=DB_USER,
+    password=DB_PASSWORD,
+    host=DB_HOST
 )
 
 COLUMN_RENAME = {
