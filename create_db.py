@@ -1,10 +1,11 @@
 import psycopg2
+from src.config import DB_HOST, DB_NAME, DB_USER, DB_PASSWORD
 
 conn = psycopg2.connect(
-    dbname="rh_turnover",
-    user="rh_user",
-    password="rh_password",
-    host="localhost"
+    dbname=DB_NAME,
+    user=DB_USER,
+    password=DB_PASSWORD,
+    host=DB_HOST
 )
 
 cur = conn.cursor()
