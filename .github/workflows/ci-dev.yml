@@ -1,0 +1,38 @@
+name: CI Dev
+
+on:
+  push:
+    branches:
+      - "feature/**"
+      - "data/**"
+      - "fix/**"
+  pull_request:
+    branches:
+      - "feature/**"
+      - "data/**"
+      - "fix/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v4
+
+      - name: Installer Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installer uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Installer les dépendances
+        run: uv sync --all-groups
+
+      - name: Vérifier le style du code
+        run: uv run ruff check src/ app/ tests/
+
+      - name: Lancer les tests
+        run: uv run pytest tests/ -v
