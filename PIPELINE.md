@@ -130,17 +130,58 @@ Les credentials PostgreSQL ne sont pas en dur dans le YAML — ils sont stockés
 
 ---
 
-## 7. Protection de la branche `main`
+## 7. Workflows CI séparés par environnement
 
 **Pourquoi ?**
-Empêcher de merger du code cassé ou non relu directement sur `main`.
+Un seul workflow pour tous les environnements oblige à faire tourner les mêmes étapes lourdes (entraînement du modèle, BDD) même sur une simple branche `feature/`. En séparant les workflows, chaque environnement a un pipeline adapté à ses besoins — plus rapide en dev, plus complet en staging et prod.
+
+**Ce qu'on a mis en place : 3 fichiers de workflow**
+
+| Fichier | Se déclenche sur | Étapes |
+|---------|-----------------|--------|
+| `ci-dev.yml` | `feature/*`, `data/*`, `fix/*` | ruff + pytest uniquement (pas de BDD, pas de modèle) |
+| `ci-staging.yml` | `develop` | ruff + pytest + save_model + BDD de test |
+| `ci-prod.yml` | `main` | idem staging — pipeline officiel avant production |
+
+**Détail de chaque workflow :**
+
+`ci-dev.yml` — **rapide**, feedback immédiat pour le développeur :
+1. Installe Python 3.11 et uv
+2. Installe les dépendances (`uv sync`)
+3. Vérifie le style du code (`ruff check`)
+4. Lance les tests (`pytest`)
+
+`ci-staging.yml` — **complet**, valide l'intégration avant de merger sur main :
+1. Lance un conteneur PostgreSQL (BDD de test)
+2. Installe Python 3.11 et uv
+3. Installe les dépendances (`uv sync`)
+4. Crée la table (`create_db.py`)
+5. Entraîne et sauvegarde le modèle (`save_model.py`)
+6. Vérifie le style du code (`ruff check`)
+7. Lance les tests (`pytest`)
+
+`ci-prod.yml` — **identique à staging**, déclenché uniquement sur `main` :
+1. Mêmes étapes que staging
+2. Point d'extension pour un déploiement automatique futur
+
+**Pourquoi pas de BDD en dev ?**
+En dev, les tests unitaires n'ont pas besoin d'une vraie base PostgreSQL. Lancer un conteneur prend du temps inutilement. La BDD de test n'est nécessaire qu'à partir de staging, où on valide l'intégration complète.
+
+---
+
+## 7b. Protection des branches `main` et `develop`
+
+**Pourquoi ?**
+Empêcher de merger du code cassé ou non relu directement sur `main` ou `develop`.
 
 **Ce qu'on a configuré (GitHub Settings → Rules → Rulesets) :**
 - `Require a pull request before merging` — tout changement passe par une PR
 - `Require status checks to pass` (job `test`) — la CI doit être verte avant de merger
-- `Require branches to be up to date` — la PR doit être testée avec le dernier code de main
+- `Require branches to be up to date` — la PR doit être testée avec le dernier code de la branche cible
 - `Block force pushes` — interdit de réécrire l'historique Git
-- `Restrict deletions` — interdit de supprimer la branche main
+- `Restrict deletions` — interdit de supprimer les branches protégées
+
+**Deux rulesets configurés :** un pour `main`, un pour `develop`.
 
 ---
 
