@@ -12,7 +12,6 @@ wheels/
 # Fichier et dossier inutiles à partager  
 .python-version
 catboost_info/
-app/model.pkl
 .env
 .env.dev
 .env.test
