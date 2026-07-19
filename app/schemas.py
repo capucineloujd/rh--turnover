@@ -2,6 +2,7 @@ from pydantic import BaseModel
 
 
 class EmployeeInput(BaseModel):
+    id_employee: int
     genre: int
     annee_experience_totale: int
     satisfaction_employee_environnement: int

@@ -12,6 +12,7 @@ def make_mock_conn():
     return mock_conn
 
 VALID_EMPLOYEE = {
+    "id_employee": 1,
     "genre": 0,
     "annee_experience_totale": 5,
     "satisfaction_employee_environnement": 3,
