@@ -116,7 +116,11 @@ Trois pipelines GitHub Actions selon l'environnement :
 
 Chaque pipeline se déclenche automatiquement sur `push` et `pull_request` vers la branche cible.
 
-Les credentials de la base de données sont gérés via les **secrets GitHub** (Settings → Secrets and variables → Actions).
+Les credentials de la base de données sont gérés via les **secrets GitHub** (Settings --> Secrets and variables --> Actions).
+
+## Schéma UML de la base de données
+
+![Schéma BDD](docs/uml-rh.png)
 
 ## Convention des branches
 
