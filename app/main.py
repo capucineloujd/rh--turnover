@@ -40,11 +40,12 @@ def predict(employee: EmployeeInput) -> PredictionOutput:
     cur = conn.cursor()
     cur.execute("""
         INSERT INTO predictions (
-            heure_supplementaires, annee_experience_totale,
+            id_employee, heure_supplementaires, annee_experience_totale,
             ratio_evolution, ratio_relation_manager,
             probabilite_depart, alerte
-        ) VALUES (%s, %s, %s, %s, %s, %s)
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s)
     """, (
+        employee.id_employee,
         employee.heure_supplementaires,
         employee.annee_experience_totale,
         employee.ratio_evolution,
