@@ -1,36 +1,24 @@
-import psycopg2
 import pandas as pd
+from sqlalchemy import text
+from src.database import engine
 
-conn = psycopg2.connect(
-    dbname="rh_turnover",
-    user="rh_user",
-    password="rh_password",
-    host="localhost"
-)
+with engine.connect() as conn:
+    df = pd.read_sql(
+        text("SELECT * FROM predictions ORDER BY created_at DESC LIMIT 10"),
+        conn
+    )
+    print("=== 10 dernières prédictions ===")
+    print(df.to_string(index=False))
 
-cur = conn.cursor()
+    stats = conn.execute(text("""
+        SELECT
+            COUNT(*) AS total_predictions,
+            SUM(CASE WHEN alerte THEN 1 ELSE 0 END) AS total_alertes,
+            ROUND(AVG(probabilite_depart)::numeric, 3) AS proba_moyenne
+        FROM predictions
+    """)).fetchone()
 
-# 10 dernières prédictions
-cur.execute("SELECT * FROM predictions ORDER BY created_at DESC LIMIT 10")
-rows = cur.fetchall()
-colonnes = [desc[0] for desc in cur.description]
-df = pd.DataFrame(rows, columns=colonnes)
-print("=== 10 dernières prédictions ===")
-print(df.to_string(index=False))
-
-# Stats globales
-cur.execute("""
-    SELECT
-        COUNT(*) AS total_predictions,
-        SUM(CASE WHEN alerte THEN 1 ELSE 0 END) AS total_alertes,
-        ROUND(AVG(probabilite_depart)::numeric, 3) AS proba_moyenne
-    FROM predictions
-""")
-stats = cur.fetchone()
-print("\n=== Statistiques globales ===")
-print(f"Total prédictions : {stats[0]}")
-print(f"Total alertes     : {stats[1]}")
-print(f"Proba moyenne     : {stats[2]}")
-
-cur.close()
-conn.close()
+    print("\n=== Statistiques globales ===")
+    print(f"Total prédictions : {stats[0]}")
+    print(f"Total alertes     : {stats[1]}")
+    print(f"Proba moyenne     : {stats[2]}")
