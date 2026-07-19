@@ -1,6 +1,11 @@
+import os
+import pytest
 from unittest.mock import MagicMock, patch
 from fastapi.testclient import TestClient
-from app.main import app
+from sqlalchemy.orm import Session
+from app.main import app, get_db_connection
+
+has_db = os.getenv("DB_HOST") is not None
 
 client = TestClient(app)
 
@@ -62,3 +67,11 @@ def test_predict_valid_input():
 def test_predict_invalid_input():
     response = client.post("/predict", json={"genre": "invalide"})
     assert response.status_code == 422
+
+
+# Vérifie que get_db_connection retourne une session SQLAlchemy valide
+@pytest.mark.skipif(not has_db, reason="pas de base de données disponible en CI dev")
+def test_get_db_connection_returns_session():
+    session = get_db_connection()
+    assert isinstance(session, Session)
+    session.close()
