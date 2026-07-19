@@ -218,40 +218,40 @@ Les tags marquent les versions stables du projet — `v1.0.0` est la première v
 
 ---
 
-## 9. Déploiement sur Hugging Face Spaces
+## 9. Déploiement sur Render.com
 
-**Pourquoi HF Spaces ?**
-HF Spaces permet d'héberger des applications ML gratuitement. Il supporte les **Docker Spaces** — on lui fournit un `Dockerfile`, il construit et lance le conteneur. C'est le mode le plus adapté pour une API FastAPI.
+**Pourquoi Render ?**
+Render permet d'héberger une API FastAPI gratuitement via Docker. Il se connecte directement au repo GitHub et déploie automatiquement à chaque push sur `main`.
 
 **Architecture de déploiement :**
 
 ```
-GitHub (code) → CI/CD → HF Space (API FastAPI) → Supabase (PostgreSQL prod)
+GitHub (code) → CI/CD → Render (API FastAPI) → Supabase (PostgreSQL prod)
 ```
 
 **Les 3 composants :**
 
 | Composant | Solution | Pourquoi |
 |-----------|----------|----------|
-| API | HF Space (Docker) | Hébergement gratuit, adapté aux projets ML |
-| Modèle `model.pkl` | Committé dans le repo HF Space | Fichier léger, pas besoin de le télécharger au démarrage |
+| API | Render (Docker) | Hébergement gratuit, déploiement automatique depuis GitHub |
+| Modèle `model.pkl` | Committé dans le repo | Fichier léger, disponible au démarrage |
 | Base de données | Supabase | PostgreSQL managé gratuit, facile à connecter |
 
 **Gestion des secrets — deux systèmes séparés :**
 
-Les secrets GitHub Actions et les secrets HF Space sont indépendants. Les mêmes noms de variables, mais des valeurs différentes selon l'environnement :
+Les secrets GitHub Actions et les variables d'environnement Render sont indépendants. Les mêmes noms de variables, mais des valeurs différentes selon l'environnement :
 
-| Secret | GitHub Actions (CI) | HF Space (prod) |
-|--------|---------------------|-----------------|
+| Secret | GitHub Actions (CI) | Render (prod) |
+|--------|---------------------|---------------|
 | `DB_USER` | user de test CI | user Supabase prod |
 | `DB_PASSWORD` | password de test CI | password Supabase prod |
 | `DB_NAME` | db de test CI | db Supabase prod |
 | `DB_HOST` | `localhost` | host Supabase |
-| `DB_PORT` | `5432` | `5432` |
+| `DB_PORT` | `5432` | `6543` |
 
 **Plan d'action :**
-1. Créer un projet Supabase → récupérer les credentials prod
-2. Créer le HF Space (type Docker)
-3. Ajouter les secrets Supabase dans HF Space (Settings → Variables and secrets)
-4. Écrire le `Dockerfile`
-5. Adapter `ci-prod.yml` pour pousser automatiquement sur HF Space après les tests
+1. ✅ Créer un projet Supabase → credentials récupérés
+2. Écrire le `Dockerfile`
+3. Créer le service sur Render.com (connecté au repo GitHub)
+4. Ajouter les secrets Supabase dans Render (Environment → Environment Variables)
+5. Adapter `ci-prod.yml` pour déclencher le déploiement Render après les tests

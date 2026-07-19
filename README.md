@@ -6,6 +6,20 @@ Ce projet est le quatrième dans le cadre de ma formation IA d'OpenClassroom. Da
 ## Résultat principal
 Le principal facteur de démission identifié est les heures supplémentaires. Le modèle final (CatBoost) atteint un recall de 0.72 sur le jeu de test avec un seuil de décision de 0.535.
 
+## Standards d'expérimentation ML
+
+**Dataset** : issu d'une base de données privée pour une entreprise fictive (fichiers CSV non versionnés).
+
+**Choix du modèle** : CatBoost a été retenu pour son bon compromis précision/recall sur ce jeu de données déséquilibré, sans nécessiter de prétraitement des variables catégorielles.
+
+**Métrique principale : recall**. Dans ce contexte métier, rater un employé qui va partir (faux négatif) est plus coûteux que signaler à tort un employé qui reste (faux positif). Le recall est donc prioritaire sur la précision.
+
+**Seuil de décision à 0.535** : le seuil par défaut de 0.5 a été ajusté pour maximiser le recall sur le jeu de test tout en maintenant une précision acceptable.
+
+**Split train/test** : 80/20 avec stratification sur la variable cible. Les hyperparamètres ont été ajustés manuellement en observant les métriques sur le jeu de validation.
+
+**Reproductibilité** : un `random_state` fixe est utilisé dans tous les modules (`src/models/train.py`) pour garantir des résultats identiques à chaque exécution.
+
 ---
 
 ## Installation
@@ -92,13 +106,15 @@ Copier `.env.example` et renseigner les variables selon l'environnement cible.
 
 ## CI/CD
 
-Le pipeline GitHub Actions (`.github/workflows/ci.yml`) se déclenche automatiquement à chaque push et pull request sur `main`. Il exécute :
+Trois pipelines GitHub Actions selon l'environnement :
 
-1. Installation des dépendances
-2. Création de la base de données de test
-3. Entraînement et sauvegarde du modèle
-4. Lint du code avec `ruff`
-5. Exécution des 22 tests avec `pytest`
+| Workflow | Branche(s) | Étapes |
+|----------|-----------|--------|
+| `ci-dev.yml` | `feature/*`, `data/*`, `fix/*` | lint (ruff) + tests (pytest) |
+| `ci-staging.yml` | `develop` | lint + tests + BDD PostgreSQL + sauvegarde modèle |
+| `ci-prod.yml` | `main` | idem staging |
+
+Chaque pipeline se déclenche automatiquement sur `push` et `pull_request` vers la branche cible.
 
 Les credentials de la base de données sont gérés via les **secrets GitHub** (Settings → Secrets and variables → Actions).
 
@@ -126,5 +142,7 @@ rh--turnover/
   notebook/         # Exploration et expérimentation
   .github/
     workflows/
-      ci.yml        # Pipeline CI/CD
+      ci-dev.yml      # Pipeline dev (feature/*, data/*, fix/*)
+      ci-staging.yml  # Pipeline staging (develop)
+      ci-prod.yml     # Pipeline prod (main)
 ```

@@ -3,16 +3,9 @@ import psycopg2
 from fastapi import FastAPI
 from app.schemas import EmployeeInput, PredictionOutput
 from app.model import model
-from src.config import SEUIL_FINAL, DB_HOST, DB_NAME, DB_USER, DB_PASSWORD
+from src.config import SEUIL_FINAL, DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
 
 app = FastAPI(title="RH Turnover API", description="Prédit la probabilité qu'un employé quitte l'entreprise.")
-
-conn = psycopg2.connect(
-    dbname=DB_NAME,
-    user=DB_USER,
-    password=DB_PASSWORD,
-    host=DB_HOST
-)
 
 COLUMN_RENAME = {
     "statut_marital_Divorcé_e": "statut_marital_Divorcé(e)",
@@ -20,6 +13,16 @@ COLUMN_RENAME = {
     "poste_Représentant_Commercial": "poste_Représentant Commercial",
     "poste_Tech_Lead": "poste_Tech Lead",
 }
+
+
+def get_db_connection():
+    return psycopg2.connect(
+        dbname=DB_NAME,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        host=DB_HOST,
+        port=DB_PORT,
+    )
 
 
 @app.get("/")
@@ -33,6 +36,7 @@ def predict(employee: EmployeeInput) -> PredictionOutput:
     proba = model.predict_proba(data)[0, 1]
     alerte = bool(proba >= SEUIL_FINAL)
 
+    conn = get_db_connection()
     cur = conn.cursor()
     cur.execute("""
         INSERT INTO predictions (
@@ -50,6 +54,7 @@ def predict(employee: EmployeeInput) -> PredictionOutput:
     ))
     conn.commit()
     cur.close()
+    conn.close()
 
     return PredictionOutput(
         probabilite_depart=round(float(proba), 3),
