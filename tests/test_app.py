@@ -135,7 +135,6 @@ def test_predict_high_risk_employee():
     assert response.status_code == 200
     assert response.json()["alerte"] is True
 
-
 # Vérifie qu'un profil à bas risque ne déclenche pas d'alerte
 def test_predict_low_risk_employee():
     with patch("app.main.get_db_connection", return_value=make_mock_conn()):
