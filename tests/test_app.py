@@ -1,7 +1,15 @@
+from unittest.mock import MagicMock, patch
 from fastapi.testclient import TestClient
 from app.main import app
 
 client = TestClient(app)
+
+
+def make_mock_conn():
+    mock_conn = MagicMock()
+    mock_cursor = MagicMock()
+    mock_conn.cursor.return_value = mock_cursor
+    return mock_conn
 
 VALID_EMPLOYEE = {
     "genre": 0,
@@ -41,7 +49,8 @@ def test_health_check():
 
 # Vérifie que /predict retourne une probabilité entre 0 et 1 et un booléen alerte
 def test_predict_valid_input():
-    response = client.post("/predict", json=VALID_EMPLOYEE)
+    with patch("app.main.get_db_connection", return_value=make_mock_conn()):
+        response = client.post("/predict", json=VALID_EMPLOYEE)
     assert response.status_code == 200
     data = response.json()
     assert 0.0 <= data["probabilite_depart"] <= 1.0

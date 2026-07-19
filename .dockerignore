@@ -1,0 +1,13 @@
+.venv
+data_raw/
+notebook/
+tests/
+htmlcov/
+catboost_info/
+.env
+.env.dev
+.env.test
+.env.prod
+.github/
+*.py[oc]
+__pycache__/
