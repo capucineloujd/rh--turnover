@@ -27,7 +27,7 @@ Tout le code était dans un notebook. Un notebook n'est pas testable automatique
 **Pourquoi ?**
 Sans tests, on ne sait pas si une modification casse quelque chose. Les tests permettent de détecter les régressions automatiquement.
 
-**Ce qu'on a fait (22 tests) :**
+**Ce qu'on a fait (25 tests) :**
 
 | Fichier | Ce qu'il teste |
 |---------|---------------|
@@ -36,7 +36,7 @@ Sans tests, on ne sait pas si une modification casse quelque chose. Les tests pe
 | `test_build_features.py` | Ratios créés, colonnes supprimées, pas de NaN, y séparé de X |
 | `test_encoding.py` | Encodage binaire, ordinal, one-hot, colonnes brutes supprimées |
 | `test_model.py` | Entraînement sans erreur, probabilités entre 0 et 1, recall >= 0.70 |
-| `test_app.py` | Health check, prédiction valide, erreur 422 sur données invalides |
+| `test_app.py` | Health check, prédiction valide, erreur 422 sur données invalides ou manquantes (géré automatiquement par Pydantic), cas limites haut/bas risque, connexion BDD |
 
 **Pourquoi pytest ?** C'est le standard Python pour les tests, compatible avec la CI.
 
