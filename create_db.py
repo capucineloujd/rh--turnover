@@ -1,67 +1,7 @@
-import psycopg2
-from src.config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
+from src.database import engine, Base, Data, SessionLocal
 from src.data.loader import load_data
 
-conn = psycopg2.connect(
-    dbname=DB_NAME,
-    user=DB_USER,
-    password=DB_PASSWORD,
-    host=DB_HOST,
-    port=DB_PORT,
-)
-
-cur = conn.cursor()
-
-cur.execute("""
-    CREATE TABLE IF NOT EXISTS data (
-        id_employee INTEGER PRIMARY KEY,
-        age INTEGER,
-        genre VARCHAR,
-        revenu_mensuel INTEGER,
-        statut_marital VARCHAR,
-        departement VARCHAR,
-        poste VARCHAR,
-        nombre_experiences_precedentes INTEGER,
-        nombre_heures_travaillees INTEGER,
-        annee_experience_totale INTEGER,
-        annees_dans_entreprise INTEGER,
-        annees_dans_poste_actuel INTEGER,
-        satisfaction_environnement INTEGER,
-        note_evaluation_precedente INTEGER,
-        niveau_hierarchique_poste INTEGER,
-        satisfaction_nature_travail INTEGER,
-        satisfaction_equipe INTEGER,
-        satisfaction_equilibre_pro_perso INTEGER,
-        note_evaluation_actuelle INTEGER,
-        heure_supplementaires BOOLEAN,
-        augmentation_salaire_precedente VARCHAR,
-        a_quitte_entreprise BOOLEAN,
-        nombre_participation_pee INTEGER,
-        nb_formations_suivies INTEGER,
-        nombre_employes_sous_responsabilite INTEGER,
-        distance_domicile_travail INTEGER,
-        niveau_education INTEGER,
-        domaine_etude VARCHAR,
-        ayant_enfants BOOLEAN,
-        frequence_deplacement VARCHAR,
-        annees_depuis_derniere_promotion INTEGER,
-        annees_sous_responsable_actuel INTEGER
-    )
-""")
-
-cur.execute("""
-    CREATE TABLE IF NOT EXISTS predictions (
-        id SERIAL PRIMARY KEY,
-        created_at TIMESTAMP DEFAULT NOW(),
-        id_employee INTEGER REFERENCES data(id_employee),
-        heure_supplementaires BOOLEAN,
-        annee_experience_totale INTEGER,
-        ratio_evolution FLOAT,
-        ratio_relation_manager FLOAT,
-        probabilite_depart FLOAT,
-        alerte BOOLEAN
-    )
-""")
+Base.metadata.create_all(engine)
 
 df = load_data()
 
@@ -86,18 +26,14 @@ df = df.rename(columns={
     "annes_sous_responsable_actuel": "annees_sous_responsable_actuel",
 })
 
-for _, row in df.iterrows():
-    cur.execute("""
-        INSERT INTO data VALUES (
-            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
-            %s, %s, %s, %s, %s, %s, %s, %s
-        )
-        ON CONFLICT (id_employee) DO NOTHING
-    """, tuple(row))
+session = SessionLocal()
 
-conn.commit()
-cur.close()
-conn.close()
+for _, row in df.iterrows():
+    exists = session.get(Data, int(row["id_employee"]))
+    if not exists:
+        session.add(Data(**row.to_dict()))
+
+session.commit()
+session.close()
 
 print(f"Tables créées et {len(df)} lignes insérées dans data!")

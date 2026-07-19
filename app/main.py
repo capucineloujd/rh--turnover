@@ -1,9 +1,9 @@
 import pandas as pd
-import psycopg2
 from fastapi import FastAPI
 from app.schemas import EmployeeInput, PredictionOutput
 from app.model import model
-from src.config import SEUIL_FINAL, DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
+from src.config import SEUIL_FINAL
+from src.database import SessionLocal, Prediction
 
 app = FastAPI(title="RH Turnover API", description="Prédit la probabilité qu'un employé quitte l'entreprise.")
 
@@ -16,13 +16,7 @@ COLUMN_RENAME = {
 
 
 def get_db_connection():
-    return psycopg2.connect(
-        dbname=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        host=DB_HOST,
-        port=DB_PORT,
-    )
+    return SessionLocal()
 
 
 @app.get("/")
@@ -36,26 +30,18 @@ def predict(employee: EmployeeInput) -> PredictionOutput:
     proba = model.predict_proba(data)[0, 1]
     alerte = bool(proba >= SEUIL_FINAL)
 
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute("""
-        INSERT INTO predictions (
-            id_employee, heure_supplementaires, annee_experience_totale,
-            ratio_evolution, ratio_relation_manager,
-            probabilite_depart, alerte
-        ) VALUES (%s, %s, %s, %s, %s, %s, %s)
-    """, (
-        employee.id_employee,
-        employee.heure_supplementaires,
-        employee.annee_experience_totale,
-        employee.ratio_evolution,
-        employee.ratio_relation_manager,
-        round(float(proba), 3),
-        alerte,
+    session = get_db_connection()
+    session.add(Prediction(
+        id_employee=employee.id_employee,
+        heure_supplementaires=employee.heure_supplementaires,
+        annee_experience_totale=employee.annee_experience_totale,
+        ratio_evolution=employee.ratio_evolution,
+        ratio_relation_manager=employee.ratio_relation_manager,
+        probabilite_depart=round(float(proba), 3),
+        alerte=alerte,
     ))
-    conn.commit()
-    cur.close()
-    conn.close()
+    session.commit()
+    session.close()
 
     return PredictionOutput(
         probabilite_depart=round(float(proba), 3),
