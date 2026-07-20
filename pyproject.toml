@@ -33,6 +33,8 @@ constraint-dependencies = [
 
 [dependency-groups]
 dev = [
+    "mkdocs>=1.6",
+    "mkdocs-material>=9.5",
     "pytest>=9.1.1",
     "pytest-cov>=7.1.0",
     "ruff>=0.15.22",

@@ -1,0 +1,32 @@
+site_name: RH Turnover - Documentation
+site_description: Documentation technique du modèle de prédiction du turnover RH
+site_url: https://capucineloujd.github.io/rh--turnover/
+repo_url: https://github.com/capucineloujd/rh--turnover
+repo_name: capucineloujd/rh--turnover
+
+theme:
+  name: material
+  language: fr
+  palette:
+    primary: indigo
+    accent: indigo
+  features:
+    - navigation.tabs
+    - navigation.top
+    - content.code.copy
+
+nav:
+  - Accueil: index.md
+  - Modèle ML:
+      - Pipeline et choix techniques: model.md
+      - Maintenance et mise à jour: maintenance.md
+  - API:
+      - Guide d'utilisation: api.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - tables
