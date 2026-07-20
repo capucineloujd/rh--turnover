@@ -4,6 +4,8 @@
 ![Python 3.11](https://img.shields.io/badge/python-3.11-pink?logo=python)
 ![Deployed on Render](https://img.shields.io/badge/deployed%20on-Render-46E3B7?logo=render)
 
+**[Documentation complète](https://capucineloujd.github.io/rh--turnover/)** | **[API Swagger](https://rh-turnover-api.onrender.com/docs)**
+
 ## Contexte et objectif
 Ce projet est le quatrième dans le cadre de ma formation IA d'OpenClassroom. Dans le cadre d'une problématique de turnover, nous analysons les données RH de l'entreprise pour identifier objectivement les causes de démission. Trois sources de données sont disponibles : le SIRH (profil et informations contractuelles des employés), le système d'évaluation annuelle (notes de performance et satisfaction), et un sondage bien-être annuel (incluant un indicateur de départ).
 
@@ -107,6 +109,33 @@ Le projet utilise des fichiers `.env` pour gérer les configurations :
 | `.env.prod` | Production |
 
 Copier `.env.example` et renseigner les variables selon l'environnement cible.
+
+## Déploiement
+
+```
+GitHub (code)  →  CI/CD (GitHub Actions)  →  Render (API FastAPI)  →  Supabase (PostgreSQL)
+```
+
+L'API est déployée sur **Render** via Docker et accessible à :
+**https://rh-turnover-api.onrender.com/docs**
+
+### Composants
+
+| Composant | Solution | Pourquoi |
+|-----------|----------|----------|
+| API | Render (Docker) | Hébergement gratuit, déploiement automatique depuis GitHub |
+| Modèle | Commité dans le repo (`app/model.pkl`) | Fichier léger, disponible au démarrage sans réentraînement |
+| Base de données | Supabase (PostgreSQL managé) | PostgreSQL managé gratuit, facile à connecter |
+
+### Redéployer depuis zéro
+
+1. Créer un projet **Supabase** → récupérer les credentials (host, port, user, password, db name)
+2. Créer un service **Render** de type Web Service, connecté au repo GitHub, runtime Docker
+3. Ajouter les variables d'environnement Supabase dans Render (Environment → Environment Variables) :
+   `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`
+4. Pousser sur `main` → Render détecte le push et redéploie automatiquement
+
+La configuration Render est versionnée dans [`render.yaml`](render.yaml).
 
 ## CI/CD
 
