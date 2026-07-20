@@ -6,6 +6,16 @@ L'API est déployée sur Render et accessible à l'adresse :
 La documentation Swagger interactive est disponible sur :
 **`https://rh-turnover-api.onrender.com/docs`**
 
+## Authentification
+
+Tous les appels à `/predict` nécessitent une clé API passée dans le header `X-API-Key` :
+
+```
+X-API-Key: votre-clé-api
+```
+
+Sans clé ou avec une clé invalide, l'API retourne une erreur `403 Forbidden`.
+
 ## Endpoints
 
 | Méthode | Route | Description |
@@ -66,6 +76,7 @@ L'API attend des **features préprocessées**. Deux transformations sont nécess
 ```bash
 curl -X POST "https://rh-turnover-api.onrender.com/predict" \
   -H "Content-Type: application/json" \
+  -H "X-API-Key: votre-clé-api" \
   -d '{
     "id_employee": 42,
     "genre": 0,
@@ -142,6 +153,7 @@ payload = {
 response = requests.post(
     "https://rh-turnover-api.onrender.com/predict",
     json=payload,
+    headers={"X-API-Key": "votre-clé-api"},
 )
 print(response.json())
 # {"probabilite_depart": 0.712, "alerte": true}
@@ -152,4 +164,5 @@ print(response.json())
 | Code | Signification |
 |------|--------------|
 | `200` | Prédiction calculée avec succès |
+| `403` | Clé API manquante ou invalide |
 | `422` | Données invalides ou champ manquant - vérifier les types et plages de valeurs |
