@@ -154,7 +154,7 @@ Les credentials PostgreSQL ne sont pas en dur dans le YAML ; ils sont stockés d
 ## 7. Workflows CI séparés par environnement
 
 **Pourquoi ?**
-Un seul workflow pour tous les environnements oblige à faire tourner les mêmes étapes lourdes (entraînement du modèle, BDD) même sur une simple branche `feature/`. En séparant les workflows, chaque environnement a un pipeline adapté à ses besoins — plus rapide en dev, plus complet en staging et prod.
+Un seul workflow pour tous les environnements oblige à faire tourner les mêmes étapes lourdes (entraînement du modèle, BDD) même sur une simple branche `feature/`. En séparant les workflows, chaque environnement a un pipeline adapté à ses besoins - plus rapide en dev, plus complet en staging et prod.
 
 **Ce qu'on a mis en place : 3 fichiers de workflow**
 
@@ -162,7 +162,7 @@ Un seul workflow pour tous les environnements oblige à faire tourner les mêmes
 |---------|-----------------|--------|
 | `ci-dev.yml` | `feature/*`, `data/*`, `fix/*` | ruff + pytest uniquement (pas de BDD, pas de modèle) |
 | `ci-staging.yml` | `develop` | ruff + pytest + save_model + BDD de test |
-| `ci-prod.yml` | `main` | idem staging — pipeline officiel avant production |
+| `ci-prod.yml` | `main` | idem staging - pipeline officiel avant production |
 
 **Détail de chaque workflow :**
 
@@ -215,8 +215,8 @@ Empêcher de merger du code cassé ou non relu directement sur `main` ou `develo
 | `feature/nom` | **dev** | Développement local d'une fonctionnalité |
 | `data/nom` | **dev** | Travail sur les données |
 | `fix/nom` | **dev** | Correction de bug |
-| `develop` | **staging** | Intégration — toutes les features fusionnent ici avant prod |
-| `main` | **prod** | Production — code stable et déployé |
+| `develop` | **staging** | Intégration - toutes les features fusionnent ici avant prod |
+| `main` | **prod** | Production - code stable et déployé |
 
 **Flux de travail :**
 ```
