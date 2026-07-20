@@ -1,10 +1,14 @@
 # RH Turnover
 
+[![CI Prod](https://github.com/capucineloujd/rh--turnover/actions/workflows/ci-prod.yml/badge.svg)](https://github.com/capucineloujd/rh--turnover/actions/workflows/ci-prod.yml)
+![Python 3.11](https://img.shields.io/badge/python-3.11-pink?logo=python)
+![Deployed on Render](https://img.shields.io/badge/deployed%20on-Render-46E3B7?logo=render)
+
 ## Contexte et objectif
 Ce projet est le quatrième dans le cadre de ma formation IA d'OpenClassroom. Dans le cadre d'une problématique de turnover, nous analysons les données RH de l'entreprise pour identifier objectivement les causes de démission. Trois sources de données sont disponibles : le SIRH (profil et informations contractuelles des employés), le système d'évaluation annuelle (notes de performance et satisfaction), et un sondage bien-être annuel (incluant un indicateur de départ).
 
 ## Résultat principal
-Le principal facteur de démission identifié est les heures supplémentaires. Le modèle final (CatBoost) atteint un recall de 0.72 sur le jeu de test avec un seuil de décision de 0.535.
+Le principal facteur de démission identifié est les heures supplémentaires. Le modèle final (CatBoost) atteint un recall de 0.766 sur le jeu de test avec un seuil de décision de 0.535.
 
 ## Standards d'expérimentation ML
 
