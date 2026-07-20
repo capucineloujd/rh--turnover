@@ -4,6 +4,19 @@ from app.schemas import EmployeeInput, PredictionOutput
 from app.model import model
 from src.config import SEUIL_FINAL
 from src.database import SessionLocal, Prediction
+import os
+
+
+from fastapi import Depends, HTTPException, Security
+from fastapi.security import APIKeyHeader
+
+api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
+
+def verify_api_key(api_key: str = Security(api_key_header)):
+    expected = os.getenv("API_KEY")
+    if not expected or api_key != expected:
+        raise HTTPException(status_code=403, detail="Clé API invalide ou manquante")
+    
 
 app = FastAPI(
     title="RH Turnover API",
@@ -56,6 +69,7 @@ def health_check():
 
 @app.post(
     "/predict",
+    dependencies=[Depends(verify_api_key)],
     response_model=PredictionOutput,
     summary="Prédire le risque de départ d'un employé",
     description="""
