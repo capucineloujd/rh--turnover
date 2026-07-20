@@ -1,4 +1,5 @@
 import os
+os.environ["API_KEY"] = "test-secret-key"
 import pytest
 from unittest.mock import MagicMock, patch
 from fastapi.testclient import TestClient
@@ -8,6 +9,8 @@ from app.main import app, get_db_connection
 has_db = os.getenv("DB_HOST") is not None
 
 client = TestClient(app)
+
+API_KEY_HEADER = {"X-API-Key": "test-secret-key"}
 
 
 def make_mock_conn():
@@ -115,7 +118,7 @@ def test_health_check():
 # Vérifie que /predict retourne une probabilité entre 0 et 1 et un booléen alerte
 def test_predict_valid_input():
     with patch("app.main.get_db_connection", return_value=make_mock_conn()):
-        response = client.post("/predict", json=VALID_EMPLOYEE)
+        response = client.post("/predict", json=VALID_EMPLOYEE, headers=API_KEY_HEADER)
     assert response.status_code == 200
     data = response.json()
     assert 0.0 <= data["probabilite_depart"] <= 1.0
@@ -124,21 +127,21 @@ def test_predict_valid_input():
 
 # Vérifie que /predict retourne une erreur 422 si les données sont invalides
 def test_predict_invalid_input():
-    response = client.post("/predict", json={"genre": "invalide"})
+    response = client.post("/predict", json={"genre": "invalide"}, headers=API_KEY_HEADER)
     assert response.status_code == 422
 
 
 # Vérifie qu'un profil à haut risque déclenche une alerte
 def test_predict_high_risk_employee():
     with patch("app.main.get_db_connection", return_value=make_mock_conn()):
-        response = client.post("/predict", json=HIGH_RISK_EMPLOYEE)
+        response = client.post("/predict", json=HIGH_RISK_EMPLOYEE, headers=API_KEY_HEADER)
     assert response.status_code == 200
     assert response.json()["alerte"] is True
 
 # Vérifie qu'un profil à bas risque ne déclenche pas d'alerte
 def test_predict_low_risk_employee():
     with patch("app.main.get_db_connection", return_value=make_mock_conn()):
-        response = client.post("/predict", json=LOW_RISK_EMPLOYEE)
+        response = client.post("/predict", json=LOW_RISK_EMPLOYEE, headers=API_KEY_HEADER)
     assert response.status_code == 200
     assert response.json()["alerte"] is False
 
@@ -149,3 +152,8 @@ def test_get_db_connection_returns_session():
     session = get_db_connection()
     assert isinstance(session, Session)
     session.close()
+
+# Vérifie qu'une requête sans clé API retourne 403
+def test_predict_missing_api_key():
+    response = client.post("/predict", json=VALID_EMPLOYEE)
+    assert response.status_code == 403
