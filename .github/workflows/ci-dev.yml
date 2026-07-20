@@ -38,4 +38,4 @@ jobs:
         run: uv run ruff check src/ app/ tests/
 
       - name: Lancer les tests
-        run: uv run pytest tests/ -v
+        run: uv run pytest tests/ -v --cov=src --cov=app --cov-report=term-missing
