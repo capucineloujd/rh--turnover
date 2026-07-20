@@ -2,6 +2,39 @@ from pydantic import BaseModel, Field
 
 
 class EmployeeInput(BaseModel):
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "id_employee": 42,
+                "genre": 0,
+                "annee_experience_totale": 8,
+                "satisfaction_employee_environnement": 2,
+                "note_evaluation_precedente": 3,
+                "niveau_hierarchique_poste": 2,
+                "satisfaction_employee_nature_travail": 2,
+                "satisfaction_employee_equipe": 3,
+                "satisfaction_employee_equilibre_pro_perso": 1,
+                "heure_supplementaires": True,
+                "nombre_participation_pee": 2,
+                "nb_formations_suivies": 3,
+                "distance_domicile_travail": 15,
+                "niveau_education": 3,
+                "frequence_deplacement": 1,
+                "annees_depuis_la_derniere_promotion": 4,
+                "ratio_revenu_experience": 625.0,
+                "ratio_evolution": 0.6,
+                "ratio_relation_manager": 0.4,
+                "departement_Consulting": 1,
+                "statut_marital_Divorcé_e": 0,
+                "poste_Consultant": 1,
+                "poste_Directeur_Technique": 0,
+                "poste_Manager": 0,
+                "poste_Représentant_Commercial": 0,
+                "poste_Tech_Lead": 0
+            }
+        }
+    }
+
     id_employee: int = Field(
         description="Identifiant unique de l'employé (clé primaire dans la table `data`)",
     )
