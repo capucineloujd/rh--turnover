@@ -1,0 +1,1091 @@
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation technique du modèle de prédiction du turnover RH">
+      
+      
+      
+        <link rel="canonical" href="https://capucineloujd.github.io/rh--turnover/model/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../maintenance/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Pipeline et choix techniques - RH Turnover - Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pipeline-ml-et-choix-techniques" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href=".." title="RH Turnover - Documentation" class="md-header__button md-logo" aria-label="RH Turnover - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            RH Turnover - Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Pipeline et choix techniques
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Recherche">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Effacer" aria-label="Effacer" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/capucineloujd/rh--turnover" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    capucineloujd/rh--turnover
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Accueil
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+  
+  Modèle ML
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../api/" class="md-tabs__link">
+          
+  
+  
+  API
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="RH Turnover - Documentation" class="md-nav__button md-logo" aria-label="RH Turnover - Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    RH Turnover - Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/capucineloujd/rh--turnover" title="Aller au dépôt" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    capucineloujd/rh--turnover
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accueil
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modèle ML
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Modèle ML
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline et choix techniques
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline et choix techniques
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pipeline-en-5-etapes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipeline en 5 étapes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#feature-engineering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature engineering
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selection-de-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sélection de features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparaison-des-modeles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparaison des modèles
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gestion-du-desequilibre-de-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestion du déséquilibre de classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metriques-finales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Métriques finales
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#feature-importance-shap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature importance (SHAP)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hyperparametres-retenus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hyperparamètres retenus
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../maintenance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Maintenance et mise à jour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guide d'utilisation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pipeline-en-5-etapes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pipeline en 5 étapes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#feature-engineering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature engineering
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selection-de-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Sélection de features
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#comparaison-des-modeles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Comparaison des modèles
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gestion-du-desequilibre-de-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gestion du déséquilibre de classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#metriques-finales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Métriques finales
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#feature-importance-shap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Feature importance (SHAP)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hyperparametres-retenus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hyperparamètres retenus
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="pipeline-ml-et-choix-techniques">Pipeline ML et choix techniques</h1>
+<h2 id="pipeline-en-5-etapes">Pipeline en 5 étapes</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>CSV (3 sources)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    │
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    ▼
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>1. CHARGEMENT     src/data/loader.py
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>   Jointure des 3 fichiers sur id_employee → 1 DataFrame (1470 lignes)
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    │
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    ▼
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>2. PREPROCESSING  src/data/preprocessing.py
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>   Correction des typos, conversion des booléens, suppression des colonnes inutiles
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    │
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    ▼
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>3. FEATURE ENGINEERING  src/features/build_features.py
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>   Création des ratios, suppression des variables redondantes, séparation X / y
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    │
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    ▼
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>4. ENCODAGE       src/features/encoding.py
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>   Label encoding binaire (genre), ordinal (fréquence déplacements), one-hot (poste, département, statut marital)
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    │
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>    ▼
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>5. ENTRAÎNEMENT   src/models/train.py
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>   CatBoost avec scale_pos_weight, RandomizedSearchCV sur recall, sélection de features par importance
+</code></pre></div>
+<h2 id="feature-engineering">Feature engineering</h2>
+<p>Trois ratios ont été créés pour capturer des dynamiques RH non directement observables :</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Formule</th>
+<th>Interprétation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ratio_revenu_experience</code></td>
+<td><code>revenu_mensuel / annee_experience_totale</code></td>
+<td>Revenu rapporté à l'expérience - capte le sentiment de sous-rémunération</td>
+</tr>
+<tr>
+<td><code>ratio_evolution</code></td>
+<td><code>annees_dans_le_poste_actuel / annees_dans_l_entreprise</code></td>
+<td>Stabilité de poste - un ratio proche de 1 indique une stagnation</td>
+</tr>
+<tr>
+<td><code>ratio_relation_manager</code></td>
+<td><code>annees_sous_responsable_actuel / annees_dans_l_entreprise</code></td>
+<td>Stabilité managériale - un ratio faible indique des changements fréquents</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cas limites :</strong></p>
+<ul>
+<li><code>ratio_evolution</code> et <code>ratio_relation_manager</code> : imputés à <strong>0</strong> si <code>annees_dans_l_entreprise = 0</code> (employé nouvellement arrivé)</li>
+<li><code>ratio_revenu_experience</code> : imputé par la <strong>médiane</strong> si <code>annee_experience_totale = 0</code> (le salaire ne peut pas être nul)</li>
+</ul>
+<h2 id="selection-de-features">Sélection de features</h2>
+<p>Après encodage, 31 features sont disponibles. Une sélection a été opérée en deux étapes :</p>
+<ol>
+<li><strong>Feature importance CatBoost</strong> (intrinsèque) : features avec importance &lt; 1% identifiées</li>
+<li><strong>Permutation importance</strong> (validation croisée) : croisement avec les features à contribution nulle ou négative sur le recall</li>
+</ol>
+<p>Features supprimées car faible pouvoir prédictif (&lt; 1% d'importance ET permutation importance ≤ 0) :</p>
+<ul>
+<li><code>domaine_etude_*</code> (toutes les modalités)</li>
+<li><code>poste_Cadre Commercial</code>, <code>poste_Ressources Humaines</code>, <code>poste_Senior Manager</code></li>
+<li><code>departement_Ressources Humaines</code></li>
+<li><code>statut_marital_Marié(e)</code></li>
+</ul>
+<h2 id="comparaison-des-modeles">Comparaison des modèles</h2>
+<p>Trois modèles non-linéaires ont été testés, en plus d'une régression logistique comme baseline :</p>
+<table>
+<thead>
+<tr>
+<th>Modèle</th>
+<th>Recall test</th>
+<th>Précision test</th>
+<th>Overfitting</th>
+<th>Retenu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Régression logistique (baseline)</td>
+<td>0.766</td>
+<td>0.439</td>
+<td>Non</td>
+<td>Non (linéaire)</td>
+</tr>
+<tr>
+<td>Random Forest</td>
+<td>0.766</td>
+<td>0.388</td>
+<td>Modéré</td>
+<td>Non</td>
+</tr>
+<tr>
+<td>XGBoost</td>
+<td>0.766</td>
+<td>0.418</td>
+<td>Marqué (recall train : 0.96)</td>
+<td>Non</td>
+</tr>
+<tr>
+<td><strong>CatBoost</strong></td>
+<td><strong>0.766</strong></td>
+<td><strong>0.439</strong></td>
+<td><strong>Non</strong></td>
+<td><strong>Oui</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Pourquoi CatBoost ?</p>
+<p>La consigne exigeait un modèle non-linéaire. CatBoost est le seul à ne pas présenter
+d'overfitting significatif (recall train ≈ recall test), tout en égalant les meilleures
+performances sur le jeu de test. Il gère nativement les variables catégorielles et
+intègre une régularisation forte, sans nécessiter de StandardScaler.</p>
+</div>
+<h2 id="gestion-du-desequilibre-de-classes">Gestion du déséquilibre de classes</h2>
+<p>Le dataset est déséquilibré : ~16% de départs (239/1470). Deux approches ont été comparées :</p>
+<ul>
+<li><strong>SMOTE</strong> (sur-échantillonnage synthétique) - utilisé pour LR et Random Forest</li>
+<li><strong><code>scale_pos_weight</code></strong> (pondération des classes) - utilisé pour CatBoost et XGBoost</li>
+</ul>
+<p>CatBoost utilise <code>scale_pos_weight = n_négatifs / n_positifs</code> pour pénaliser davantage les faux négatifs.</p>
+<h2 id="metriques-finales">Métriques finales</h2>
+<p>Le modèle a été évalué au seuil de décision <strong>0.535</strong> (ajusté depuis le défaut 0.5 pour maximiser le recall) :</p>
+<table>
+<thead>
+<tr>
+<th>Métrique</th>
+<th>Valeur</th>
+<th>Interprétation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Recall</strong></td>
+<td><strong>0.766</strong></td>
+<td>Sur 47 départs réels, 36 sont détectés à l'avance</td>
+</tr>
+<tr>
+<td>Précision</td>
+<td>0.439</td>
+<td>Sur 82 alertes émises, 36 sont de vrais départs</td>
+</tr>
+<tr>
+<td>F1-score</td>
+<td>0.563</td>
+<td>Compromis recall / précision</td>
+</tr>
+<tr>
+<td>Faux négatifs</td>
+<td>11</td>
+<td>Départs non détectés - coût métier le plus élevé</td>
+</tr>
+<tr>
+<td>Faux positifs</td>
+<td>46</td>
+<td>Alertes inutiles - coût acceptable (entretien RH)</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="Courbe Precision-Recall - comparaison des 4 modèles" src="../pr_curve.png" /></p>
+<p><em>Les points sur chaque courbe indiquent le seuil de décision retenu pour chaque modèle. Le point CatBoost correspond au seuil 0.535.</em></p>
+<div class="admonition warning">
+<p class="admonition-title">Pourquoi prioriser le recall ?</p>
+<p>Dans ce contexte, rater un départ (faux négatif) est plus coûteux que signaler à tort
+un employé qui reste (faux positif). Le coût de remplacement d'un employé est estimé
+à 6-9 mois de salaire ; le coût d'un entretien RH préventif est négligeable.</p>
+</div>
+<h2 id="feature-importance-shap">Feature importance (SHAP)</h2>
+<p>Les variables les plus influentes sur la prédiction, par ordre décroissant :</p>
+<ol>
+<li><code>heure_supplementaires</code> - <strong>facteur dominant</strong> : effectuer des heures sup multiplie fortement le risque</li>
+<li><code>ratio_evolution</code> - stagnation de poste associée à un risque accru</li>
+<li><code>ratio_relation_manager</code> - instabilité managériale corrélée au départ</li>
+<li><code>satisfaction_employee_nature_travail</code> - faible satisfaction des tâches</li>
+<li><code>annee_experience_totale</code> - les profils très expérimentés partent plus</li>
+</ol>
+<p>L'analyse SHAP (TreeExplainer) confirme que <code>heure_supplementaires</code> est la variable
+la plus déterminante, avec un effet directionnel fort : <code>True</code> pousse vers le départ.</p>
+<h2 id="hyperparametres-retenus">Hyperparamètres retenus</h2>
+<p>Sélectionnés par <code>RandomizedSearchCV</code> avec scoring <code>recall</code>, 5-fold cross-validation, 50 itérations :</p>
+<table>
+<thead>
+<tr>
+<th>Paramètre</th>
+<th>Valeur</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>iterations</code></td>
+<td>300</td>
+<td>Nombre d'arbres</td>
+</tr>
+<tr>
+<td><code>depth</code></td>
+<td>4</td>
+<td>Profondeur max des arbres</td>
+</tr>
+<tr>
+<td><code>learning_rate</code></td>
+<td>0.05</td>
+<td>Pas d'apprentissage</td>
+</tr>
+<tr>
+<td><code>l2_leaf_reg</code></td>
+<td>5</td>
+<td>Régularisation L2</td>
+</tr>
+<tr>
+<td><code>subsample</code></td>
+<td>0.8</td>
+<td>Fraction des données par arbre</td>
+</tr>
+<tr>
+<td><code>scale_pos_weight</code></td>
+<td>~5.15</td>
+<td>Ratio négatifs/positifs pour le déséquilibre</td>
+</tr>
+<tr>
+<td><code>random_seed</code></td>
+<td>42</td>
+<td>Reproductibilité</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Retour en haut de la page
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.top", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version": "S\u00e9lectionner la version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
