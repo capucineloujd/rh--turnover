@@ -1,4 +1,16 @@
-# RH Turnover
+<div align="center">
+  <h3 align="center">RH Turnover</h3>
+  <p align="center">
+    Prédiction du risque de départ volontaire des employés
+    <br />
+    <a href="https://capucineloujd.github.io/rh--turnover/"><strong>Documentation »</strong></a>
+    <br />
+    <br />
+    <a href="https://rh-turnover-api.onrender.com/docs">API Swagger</a>
+    &middot;
+    <a href="https://github.com/capucineloujd/rh--turnover/issues">Report Bug</a>
+  </p>
+</div>
 
 [![CI Prod](https://github.com/capucineloujd/rh--turnover/actions/workflows/ci-prod.yml/badge.svg)](https://github.com/capucineloujd/rh--turnover/actions/workflows/ci-prod.yml)
 ![Python 3.11](https://img.shields.io/badge/python-3.11-pink?logo=python)
@@ -6,11 +18,37 @@
 
 **[Documentation complète](https://capucineloujd.github.io/rh--turnover/)** | **[API Swagger](https://rh-turnover-api.onrender.com/docs)**
 
+<details>
+  <summary>Table des matières</summary>
+  <ol>
+    <li><a href="#contexte-et-objectif">Contexte et objectif</a></li>
+    <li><a href="#résultat-principal">Résultat pri
+    <li><a href="#installation">Installation</a></li>
+    <li><a href="#utilisation">Utilisation</a></li
+    <li><a href="#déploiement">Déploiement</a></li>
+    <li><a href="#cicd">CI/CD</a></li>
+    <li><a href="#tests">Tests</a></li>
+    <li><a href="#structure-du-projet">Structure d
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
+
 ## Contexte et objectif
 Ce projet est le quatrième dans le cadre de ma formation IA d'OpenClassroom. Dans le cadre d'une problématique de turnover, nous analysons les données RH de l'entreprise pour identifier objectivement les causes de démission. Trois sources de données sont disponibles : le SIRH (profil et informations contractuelles des employés), le système d'évaluation annuelle (notes de performance et satisfaction), et un sondage bien-être annuel (incluant un indicateur de départ).
 
 ## Résultat principal
 Le principal facteur de démission identifié est les heures supplémentaires. Le modèle final (CatBoost) atteint un recall de 0.766 sur le jeu de test avec un seuil de décision de 0.535.
+
+## Built with
+
+[![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.139-009688?logo=fastapi)](https://fastapi.tiangolo.com/)
+[![CatBoost](https://img.shields.io/badge/CatBoost-1.2-yellow)](https://catboost.ai/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?logo=postgresql)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-blue?logo=docker)](https://www.docker.com/)
+[![Render](https://img.shields.io/badge/Render-46E3B7?logo=render)](https://render.com/)
+[![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?logo=supabase)](https://supabase.com/)
+[![uv](https://img.shields.io/badge/uv-package%20manager-DE5FE9)](https://github.com/astral-sh/uv)
 
 ## Standards d'expérimentation ML
 
@@ -183,3 +221,31 @@ rh--turnover/
       ci-staging.yml  # Pipeline staging (develop)
       ci-prod.yml     # Pipeline prod (main)
 ```
+## Roadmap
+
+* [x] Pipeline ML (preprocessing, feature engineering, encodage, entraînement)
+* [x] API FastAPI avec persistance des prédictions en base
+* [x] CI/CD multi-environnements (dev, staging, prod)
+* [x] Déploiement sur Render + Supabase
+* [x] Documentation MkDocs déployée sur GitHub Pages
+
+## Contact
+
+Capucine Jaud - [GitHub](https://github.com/capucineloujd)
+
+## Contributing
+
+| Préfixe | Usage |
+|---------|-------|
+| `feature/nom` | Nouvelle fonctionnalité |
+| `data/nom` | Travail sur les données |
+| `fix/nom` | Correction de bug |
+
+nb. Tout changement passe par une pull request vers `develop`, qui doit être verte en CI avant de merger.
+
+## Acknowledgments
+
+* [OpenClassrooms](https://openclassrooms.com/) -- Formation IA Engineer
+* [CatBoost](https://catboost.ai/) -- Yandex
+* [FastAPI](https://fastapi.tiangolo.com/) -- Sebastián Ramírez
+* [Best README Template](https://github.com/othneildrew/Best-README-Template)
