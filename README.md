@@ -175,6 +175,29 @@ L'API est déployée sur **Render** via Docker et accessible à :
 
 La configuration Render est versionnée dans [`render.yaml`](render.yaml).
 
+## Authentification et sécurisation
+
+L'endpoint `/predict` est protégé par une **clé API** passée dans le header de chaque requête :
+
+```bash
+curl -X POST "https://rh-turnover-api.onrender.com/predict" \
+  -H "X-API-Key: votre-clé-api" \
+  -H "Content-Type: application/json" \
+  -d '{...}'
+```
+
+Sans clé valide, l'API retourne une erreur `403 Forbidden`.
+
+### Gestion des secrets
+
+| Environnement | Stockage de la clé |
+|--------------|-------------------|
+| Local | Fichier `.env` (non versionné) |
+| CI (GitHub Actions) | GitHub Secrets (`API_KEY`) |
+| Production (Render) | Environment Variables Render (`API_KEY`) |
+
+La clé n'est jamais écrite en dur dans le code ni versionnée sur Git.
+
 ## CI/CD
 
 Trois pipelines GitHub Actions selon l'environnement :
