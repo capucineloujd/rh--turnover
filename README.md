@@ -244,6 +244,16 @@ rh--turnover/
       ci-staging.yml  # Pipeline staging (develop)
       ci-prod.yml     # Pipeline prod (main)
 ```
+## Besoins analytiques
+
+Les prédictions du modèle sont stockées en base de données (`table predictions`) afin de permettre un suivi analytique dans le temps. Les indicateurs clés à monitorer sont :
+
+- Le taux d'alerte (ratio d'employés flaggés comme à risque)
+- L'évolution de la probabilité de départ moyenne
+- La confirmation des alertes sur les départs réels constatés
+
+Ces données peuvent être interrogées via `query_db.py` ou directement en SQL sur Supabase. Un tableau de bord RH (type Metabase ou Power BI) pourrait être connecté à la base pour visualiser ces indicateurs en temps réel.
+
 ## Roadmap
 
 * [x] Pipeline ML (preprocessing, feature engineering, encodage, entraînement)
@@ -251,6 +261,10 @@ rh--turnover/
 * [x] CI/CD multi-environnements (dev, staging, prod)
 * [x] Déploiement sur Render + Supabase
 * [x] Documentation MkDocs déployée sur GitHub Pages
+* [x] Authentification par clé API
+* [ ] Dashboard de visualisation des alertes RH
+* [ ] Monitoring de la dérive du modèle en production
+* [ ] Reentainement automatique sur nouvelles données
 
 ## Contact
 
