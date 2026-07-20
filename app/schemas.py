@@ -117,12 +117,12 @@ class EmployeeInput(BaseModel):
     )
     departement_Consulting: int = Field(
         description="1 si l'employé appartient au département Consulting, 0 sinon (Commercial ou Ressources Humaines). "
-                    "Variable one-hot encodée — référence : département Commercial.",
+                    "Variable one-hot encodée - référence : département Commercial.",
         ge=0, le=1,
     )
     statut_marital_Divorcé_e: int = Field(
         description="1 si l'employé est divorcé(e), 0 si célibataire ou marié(e). "
-                    "Variable one-hot encodée — référence : Célibataire.",
+                    "Variable one-hot encodée - référence : Célibataire.",
         ge=0, le=1,
     )
     poste_Consultant: int = Field(
