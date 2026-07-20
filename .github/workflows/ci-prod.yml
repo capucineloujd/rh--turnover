@@ -65,3 +65,12 @@ jobs:
         with:
           name: coverage-report
           path: htmlcov/
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - name: Déployer sur Render
+        run: curl -s "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
