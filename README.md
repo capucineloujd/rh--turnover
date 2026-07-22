@@ -16,7 +16,7 @@
 ![Python 3.11](https://img.shields.io/badge/python-3.11-pink?logo=python)
 ![Deployed on Render](https://img.shields.io/badge/deployed%20on-Render-46E3B7?logo=render)
 
-**[Documentation complète](https://capucineloujd.github.io/rh--turnover/)** | **[API Swagger](https://rh-turnover-api.onrender.com/docs)**
+**[Documentation complète](https://capucineloujd.github.io/rh--turnover/)** | **[API Swagger](https://rh-turnover.onrender.com/docs)**
 
 <details>
   <summary>Table des matières</summary>
