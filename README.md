@@ -6,7 +6,7 @@
     <a href="https://capucineloujd.github.io/rh--turnover/"><strong>Documentation »</strong></a>
     <br />
     <br />
-    <a href="https://rh-turnover-api.onrender.com/docs">API Swagger</a>
+    <a href="https://rh-turnover.onrender.com/docs">API Swagger</a>
     &middot;
     <a href="https://github.com/capucineloujd/rh--turnover/issues">Report Bug</a>
   </p>
