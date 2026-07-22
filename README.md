@@ -54,7 +54,7 @@ Le principal facteur de démission identifié est les heures supplémentaires. L
 
 **Dataset** : issu d'une base de données privée pour une entreprise fictive (fichiers CSV non versionnés).
 
-**Choix du modèle** : CatBoost a été retenu pour son bon compromis précision/recall sur ce jeu de données déséquilibré, sans nécessiter de prétraitement des variables catégorielles.
+**Choix du modèle** : CatBoost a été retenu pour son bon compromis précision/recall sur ce jeu de données déséquilibré.
 
 **Métrique principale : recall**. Dans ce contexte métier, rater un employé qui va partir (faux négatif) est plus coûteux que signaler à tort un employé qui reste (faux positif). Le recall est donc prioritaire sur la précision.
 
@@ -262,9 +262,6 @@ Ces données peuvent être interrogées via `query_db.py` ou directement en SQL 
 * [x] Déploiement sur Render + Supabase
 * [x] Documentation MkDocs déployée sur GitHub Pages
 * [x] Authentification par clé API
-* [ ] Dashboard de visualisation des alertes RH
-* [ ] Monitoring de la dérive du modèle en production
-* [ ] Reentainement automatique sur nouvelles données
 
 ## Contact
 
