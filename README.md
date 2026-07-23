@@ -161,11 +161,10 @@ GitHub (code)  -->  CI/CD (GitHub Actions)  -->  Render (API FastAPI)  -->  Supa
 
 ### Redéployer depuis zéro
 
-1. Créer un projet **Supabase** → récupérer les credentials (host, port, user, password, db name)
+1. Créer un projet **Supabase** --> récupérer les credentials (host, port, user, password, db name)
 2. Créer un service **Render** de type Web Service, connecté au repo GitHub, runtime Docker
-3. Ajouter les variables d'environnement Supabase dans Render (Environment → Environment Variables) :
-   `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`
-4. Pousser sur `main` → Render détecte le push et redéploie automatiquement
+3. Ajouter les variables d'environnement Supabase dans Render
+4. Pousser sur `main` --> Render détecte le push et redéploie automatiquement
 
 La configuration Render est versionnée dans [`render.yaml`](render.yaml).
 
