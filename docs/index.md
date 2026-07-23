@@ -6,14 +6,6 @@ Ce projet s'inscrit dans une problématique de turnover RH pour une entreprise f
 L'objectif est d'**identifier en amont les employés susceptibles de quitter l'entreprise**,
 afin de permettre aux équipes RH de mettre en place des actions de rétention ciblées.
 
-Trois sources de données ont été exploitées :
-
-| Source | Contenu |
-|--------|---------|
-| SIRH | Profil et informations contractuelles des employés |
-| Système d'évaluation annuelle | Notes de performance et de satisfaction |
-| Sondage bien-être | Indicateurs de satisfaction et intention de départ |
-
 ## Résultat principal
 
 Le principal facteur de démission identifié est **les heures supplémentaires**.
@@ -24,7 +16,7 @@ sur 47 employés qui quittent réellement l'entreprise, **36 sont détectés à 
 ## Architecture du projet
 
 ```
-GitHub (code)  →  CI/CD (GitHub Actions)  →  Render (API FastAPI)  →  Supabase (PostgreSQL)
+GitHub (code)  --> CI/CD (GitHub Actions)  -->  Render (API FastAPI)  -->  Supabase (PostgreSQL)
 ```
 
 | Composant | Technologie |
