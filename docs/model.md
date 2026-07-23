@@ -34,7 +34,7 @@ Trois ratios ont été créés pour capturer des dynamiques RH non directement o
 |---------|---------|---------------|
 | `ratio_revenu_experience` | `revenu_mensuel / annee_experience_totale` | Revenu rapporté à l'expérience qui capte le sentiment de sous-rémunération |
 | `ratio_evolution` | `annees_dans_le_poste_actuel / annees_dans_l_entreprise` | Stabilité de poste : un ratio proche de 1 indique une stagnation |
-| `ratio_relation_manager` | `annees_sous_responsable_actuel / annees_dans_l_entreprise` | Stabilité managériale : un ratio faible indique des changements fréquents |
+| `ratio_relation_manager` | `annees_sous_responsable_actuel / annees_dans_l_entreprise` | Stabilité managériale :un ratio faible indique des changements fréquents |
 
 **Cas limites :**
 
@@ -50,12 +50,12 @@ Une sélection a été opérée en deux étapes :
 
 ## Comparaison des modèles
 
-Trois autres modèles ont été testés, en plus d'une régression logistique comme baseline : Randomforest, XGboost et régression logistique.
+Trois modèles ont été testées en plus de Catboost : régression logistique, random forest, XGBoost.
 
 !!! note "Pourquoi CatBoost ?"
     La consigne exigeait un modèle non-linéaire. CatBoost est le seul à ne pas présenter
     d'overfitting significatif (recall train =env. recall test), tout en égalant les meilleures
-    performances sur le jeu de test. 
+    performances sur le jeu de test.
 
 ## Gestion du déséquilibre de classes
 
@@ -72,8 +72,8 @@ Le modèle a été évalué au seuil de décision **0.535** (ajusté depuis le d
 | **Recall** | **0.766** | Sur 47 départs réels, 36 sont détectés à l'avance |
 | Précision | 0.439 | Sur 82 alertes émises, 36 sont de vrais départs |
 | F1-score | 0.558 | Compromis recall / précision |
-| Faux négatifs | 11 | Départs non détectés = coût métier le plus élevé |
-| Faux positifs | 46 | Alertes inutiles = coût accepté |
+| Faux négatifs | 11 | Départs non détectés : coût métier le plus élevé |
+| Faux positifs | 46 | Alertes inutiles : coût accepté |
 
 ![Courbe Precision-Recall - comparaison des 4 modèles](pr_curve.png)
 
@@ -81,5 +81,6 @@ Le modèle a été évalué au seuil de décision **0.535** (ajusté depuis le d
 
 !!! warning "Pourquoi prioriser le recall ?"
     Dans ce contexte, rater un départ (faux négatif) est plus coûteux que signaler à tort
-    un employé qui reste (faux positif). 
+    un employé qui reste (faux positif).
+
 

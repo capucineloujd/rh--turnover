@@ -16,7 +16,7 @@ sur 47 employés qui quittent réellement l'entreprise, **36 sont détectés à 
 ## Architecture du projet
 
 ```
-GitHub (code)  →  CI/CD (GitHub Actions)  →  Render (API FastAPI)  →  Supabase (PostgreSQL)
+GitHub (code)  --> CI/CD (GitHub Actions)  -->  Render (API FastAPI)  -->  Supabase (PostgreSQL)
 ```
 
 | Composant | Technologie |
