@@ -4,7 +4,7 @@ L'API est déployée sur Render et accessible à l'adresse :
 **`https://rh-turnover-api.onrender.com`**
 
 La documentation Swagger interactive est disponible sur :
-**`https://rh-turnover-api.onrender.com/docs`**
+**`https://rh-turnover.onrender.com/docs`**
 
 ## Authentification
 
