@@ -15,31 +15,13 @@ api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
 def verify_api_key(api_key: str = Security(api_key_header)):
     expected = os.getenv("API_KEY")
     if not expected or api_key != expected:
-        raise HTTPException(status_code=403, detail="Clé API invalide ou manquante")
+        raise HTTPException(status_code=403, detail="Clé API invalide")
     
 
 app = FastAPI(
     title="RH Turnover API",
     version="1.0.0",
-    description="""
-## Contexte
-Cette API s'inscrit dans un projet d'analyse du turnover RH.
-Elle prédit la probabilité qu'un employé quitte volontairement l'entreprise,
-à partir de données issues du SIRH, des évaluations annuelles et du sondage bien-être.
-
-## Modèle
-- Algorithme : **CatBoost**
-- Métrique principale : **recall = 0.766** (priorité sur les faux négatifs)
-- Seuil de décision : **0.535** (ajusté pour maximiser le recall)
-
-## Interprétation des résultats
-- `probabilite_depart` : score entre 0 et 1
-- `alerte = true` : employé identifié comme à risque de départ
-
-## Prérequis
-L'API attend des **features préprocessées** : ratios calculés manuellement,
-variables catégorielles encodées selon les règles documentées dans chaque champ.
-""",
+    description="""API de prédiction du turnover RH""",
     contact={
         "name": "Capucine Jaud",
         "url": "https://github.com/capucineloujd/rh--turnover",
@@ -72,14 +54,6 @@ def health_check():
     dependencies=[Depends(verify_api_key)],
     response_model=PredictionOutput,
     summary="Prédire le risque de départ d'un employé",
-    description="""
-Reçoit le profil préprocessé d'un employé et retourne :
-- la **probabilité de départ** (score entre 0 et 1)
-- une **alerte booléenne** (`true` si probabilité ≥ 0.535)
-
-Chaque appel est persisté en base de données (table `predictions`)
-pour permettre le suivi des alertes dans le temps.
-""",
     tags=["Prédictions"],
     responses={
         200: {"description": "Prédiction calculée avec succès"},
