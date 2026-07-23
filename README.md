@@ -2,13 +2,6 @@
   <h3 align="center">RH Turnover</h3>
   <p align="center">
     Prédiction du risque de départ volontaire des employés
-    <br />
-    <a href="https://capucineloujd.github.io/rh--turnover/"><strong>Documentation »</strong></a>
-    <br />
-    <br />
-    <a href="https://rh-turnover.onrender.com/docs">API Swagger</a>
-    &middot;
-    <a href="https://github.com/capucineloujd/rh--turnover/issues">Report Bug</a>
   </p>
 </div>
 
