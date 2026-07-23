@@ -704,35 +704,12 @@
 <p>Ce projet s'inscrit dans une problématique de turnover RH pour une entreprise fictive.
 L'objectif est d'<strong>identifier en amont les employés susceptibles de quitter l'entreprise</strong>,
 afin de permettre aux équipes RH de mettre en place des actions de rétention ciblées.</p>
-<p>Trois sources de données ont été exploitées :</p>
-<table>
-<thead>
-<tr>
-<th>Source</th>
-<th>Contenu</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>SIRH</td>
-<td>Profil et informations contractuelles des employés</td>
-</tr>
-<tr>
-<td>Système d'évaluation annuelle</td>
-<td>Notes de performance et de satisfaction</td>
-</tr>
-<tr>
-<td>Sondage bien-être</td>
-<td>Indicateurs de satisfaction et intention de départ</td>
-</tr>
-</tbody>
-</table>
 <h2 id="resultat-principal">Résultat principal</h2>
 <p>Le principal facteur de démission identifié est <strong>les heures supplémentaires</strong>.</p>
 <p>Le modèle final (CatBoost) atteint un <strong>recall de 0.766</strong> sur le jeu de test avec un seuil de décision de <strong>0.535</strong> :
 sur 47 employés qui quittent réellement l'entreprise, <strong>36 sont détectés à l'avance</strong>.</p>
 <h2 id="architecture-du-projet">Architecture du projet</h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>GitHub (code)  →  CI/CD (GitHub Actions)  →  Render (API FastAPI)  →  Supabase (PostgreSQL)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>GitHub (code)  --&gt; CI/CD (GitHub Actions)  --&gt;  Render (API FastAPI)  --&gt;  Supabase (PostgreSQL)
 </code></pre></div>
 <table>
 <thead>
