@@ -472,17 +472,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#quand-reentrainer-le-modele" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quand réentraîner le modèle ?
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#comment-reentrainer-le-modele" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -544,15 +533,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#comment-monitorer-le-modele-en-production" class="md-nav__link">
+  <a href="#monitorer-le-modele-en-production" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Comment monitorer le modèle en production
+        monitorer le modèle en production
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Comment monitorer le modèle en production">
+    <nav class="md-nav" aria-label="monitorer le modèle en production">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -560,28 +549,6 @@
     <span class="md-ellipsis">
       
         Interroger les prédictions en base
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#indicateurs-a-surveiller" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Indicateurs à surveiller
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#requete-sql-directe-supabase-ou-postgresql-local" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Requête SQL directe (Supabase ou PostgreSQL local)
       
     </span>
   </a>
@@ -732,17 +699,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#quand-reentrainer-le-modele" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quand réentraîner le modèle ?
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#comment-reentrainer-le-modele" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -804,15 +760,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#comment-monitorer-le-modele-en-production" class="md-nav__link">
+  <a href="#monitorer-le-modele-en-production" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Comment monitorer le modèle en production
+        monitorer le modèle en production
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Comment monitorer le modèle en production">
+    <nav class="md-nav" aria-label="monitorer le modèle en production">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -820,28 +776,6 @@
     <span class="md-ellipsis">
       
         Interroger les prédictions en base
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#indicateurs-a-surveiller" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Indicateurs à surveiller
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#requete-sql-directe-supabase-ou-postgresql-local" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Requête SQL directe (Supabase ou PostgreSQL local)
       
     </span>
   </a>
@@ -885,44 +819,6 @@
 
 
 <h1 id="maintenance-et-mise-a-jour-du-modele">Maintenance et mise à jour du modèle</h1>
-<h2 id="quand-reentrainer-le-modele">Quand réentraîner le modèle ?</h2>
-<p>Le modèle doit être réentraîné lorsque l'une des conditions suivantes est observée :</p>
-<table>
-<thead>
-<tr>
-<th>Signal</th>
-<th>Seuil d'alerte</th>
-<th>Comment le détecter</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Baisse du recall en production</td>
-<td>Recall &lt; 0.70</td>
-<td>Comparer les alertes émises aux départs réels sur une période</td>
-</tr>
-<tr>
-<td>Dérive des données d'entrée</td>
-<td>Distribution des features significativement différente</td>
-<td>Analyser <code>query_db.py</code> sur les prédictions récentes</td>
-</tr>
-<tr>
-<td>Nouvelles données disponibles</td>
-<td>&gt; 6 mois de données fraîches</td>
-<td>Calendrier fixe (voir ci-dessous)</td>
-</tr>
-<tr>
-<td>Changement organisationnel</td>
-<td>Restructuration, nouveau système de notation</td>
-<td>Décision RH</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition tip">
-<p class="admonition-title">Calendrier recommandé</p>
-<p>En l'absence de signal d'alerte, un réentraînement <strong>annuel</strong> est recommandé,
-à l'issue du cycle d'évaluation annuelle pour intégrer les nouvelles données RH.</p>
-</div>
 <h2 id="comment-reentrainer-le-modele">Comment réentraîner le modèle</h2>
 <h3 id="1-preparer-les-nouvelles-donnees">1. Préparer les nouvelles données</h3>
 <p>Placer les fichiers CSV mis à jour dans <code>data_raw/</code> avec les mêmes noms et colonnes
@@ -930,7 +826,7 @@ que les fichiers originaux (SIRH, évaluations, sondage bien-être).</p>
 <h3 id="2-reentrainer-et-sauvegarder">2. Réentraîner et sauvegarder</h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>save_model.py
 </code></pre></div>
-<p>Ce script exécute le pipeline complet (chargement → preprocessing → features → encodage → entraînement)
+<p>Ce script exécute le pipeline complet (chargement --&gt; preprocessing --&gt; features --&gt; encodage --&gt; entraînement)
 et écrase <code>app/model.pkl</code> avec le nouveau modèle.</p>
 <h3 id="3-verifier-les-metriques">3. Vérifier les métriques</h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/test_model.py<span class="w"> </span>-v
@@ -944,7 +840,7 @@ Si le test échoue, analyser les métriques détaillées avant de déployer.</p>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
 </code></pre></div>
 <p>Render redéploie automatiquement depuis <code>main</code>.</p>
-<h2 id="comment-monitorer-le-modele-en-production">Comment monitorer le modèle en production</h2>
+<h2 id="monitorer-le-modele-en-production">monitorer le modèle en production</h2>
 <h3 id="interroger-les-predictions-en-base">Interroger les prédictions en base</h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>query_db.py
 </code></pre></div>
@@ -955,70 +851,11 @@ Si le test échoue, analyser les métriques détaillées avant de déployer.</p>
 <li>Le nombre d'alertes émises</li>
 <li>La probabilité de départ moyenne</li>
 </ul>
-<h3 id="indicateurs-a-surveiller">Indicateurs à surveiller</h3>
-<table>
-<thead>
-<tr>
-<th>Indicateur</th>
-<th>Calcul</th>
-<th>Interprétation</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Taux d'alerte</td>
-<td><code>nb_alertes / nb_prédictions</code></td>
-<td>Si &gt; 30%, le modèle sur-alerte - seuil à recalibrer</td>
-</tr>
-<tr>
-<td>Probabilité moyenne</td>
-<td>Moyenne de <code>probabilite_depart</code></td>
-<td>Doit rester stable dans le temps</td>
-</tr>
-<tr>
-<td>Taux de confirmation</td>
-<td>Alertes confirmées / nb_alertes</td>
-<td>À mesurer sur les départs réels constatés ensuite</td>
-</tr>
-</tbody>
-</table>
-<h3 id="requete-sql-directe-supabase-ou-postgresql-local">Requête SQL directe (Supabase ou PostgreSQL local)</h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1">-- Taux d&#39;alerte sur les 30 derniers jours</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">SELECT</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">total</span><span class="p">,</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="k">SUM</span><span class="p">(</span><span class="k">CASE</span><span class="w"> </span><span class="k">WHEN</span><span class="w"> </span><span class="n">alerte</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">ELSE</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="k">END</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">alertes</span><span class="p">,</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="n">ROUND</span><span class="p">(</span><span class="k">AVG</span><span class="p">(</span><span class="n">probabilite_depart</span><span class="p">)::</span><span class="nb">numeric</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">proba_moyenne</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="k">FROM</span><span class="w"> </span><span class="n">predictions</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">created_at</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">NOW</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">INTERVAL</span><span class="w"> </span><span class="s1">&#39;30 days&#39;</span><span class="p">;</span>
-</code></pre></div>
 <h2 id="versioning-du-modele">Versioning du modèle</h2>
 <p>Chaque réentraînement doit être taggé dans Git :</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>git<span class="w"> </span>tag<span class="w"> </span>v1.1.0
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v1.1.0
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>git<span class="w"> </span>tag<span class="w"> </span>v1.1.0
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v1.1.0
 </code></pre></div>
-<p>Convention de nommage : <code>vMAJEUR.MINEUR.PATCH</code></p>
-<table>
-<thead>
-<tr>
-<th>Type de changement</th>
-<th>Version</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Nouvelles données, mêmes features</td>
-<td><code>MINEUR</code></td>
-</tr>
-<tr>
-<td>Nouvelles features ou nouveau modèle</td>
-<td><code>MAJEUR</code></td>
-</tr>
-<tr>
-<td>Correction de bug pipeline</td>
-<td><code>PATCH</code></td>
-</tr>
-</tbody>
-</table>
 
 
 
