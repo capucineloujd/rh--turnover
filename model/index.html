@@ -509,28 +509,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#feature-importance-shap" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Feature importance (SHAP)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hyperparametres-retenus" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Hyperparamètres retenus
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -752,28 +730,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#feature-importance-shap" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Feature importance (SHAP)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hyperparametres-retenus" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Hyperparamètres retenus
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -832,17 +788,17 @@
 <tr>
 <td><code>ratio_revenu_experience</code></td>
 <td><code>revenu_mensuel / annee_experience_totale</code></td>
-<td>Revenu rapporté à l'expérience - capte le sentiment de sous-rémunération</td>
+<td>Revenu rapporté à l'expérience qui capte le sentiment de sous-rémunération</td>
 </tr>
 <tr>
 <td><code>ratio_evolution</code></td>
 <td><code>annees_dans_le_poste_actuel / annees_dans_l_entreprise</code></td>
-<td>Stabilité de poste - un ratio proche de 1 indique une stagnation</td>
+<td>Stabilité de poste : un ratio proche de 1 indique une stagnation</td>
 </tr>
 <tr>
 <td><code>ratio_relation_manager</code></td>
 <td><code>annees_sous_responsable_actuel / annees_dans_l_entreprise</code></td>
-<td>Stabilité managériale - un ratio faible indique des changements fréquents</td>
+<td>Stabilité managériale :un ratio faible indique des changements fréquents</td>
 </tr>
 </tbody>
 </table>
@@ -857,69 +813,16 @@
 <li><strong>Feature importance CatBoost</strong> (intrinsèque) : features avec importance &lt; 1% identifiées</li>
 <li><strong>Permutation importance</strong> (validation croisée) : croisement avec les features à contribution nulle ou négative sur le recall</li>
 </ol>
-<p>Features supprimées car faible pouvoir prédictif (&lt; 1% d'importance ET permutation importance ≤ 0) :</p>
-<ul>
-<li><code>domaine_etude_*</code> (toutes les modalités)</li>
-<li><code>poste_Cadre Commercial</code>, <code>poste_Ressources Humaines</code>, <code>poste_Senior Manager</code></li>
-<li><code>departement_Ressources Humaines</code></li>
-<li><code>statut_marital_Marié(e)</code></li>
-</ul>
 <h2 id="comparaison-des-modeles">Comparaison des modèles</h2>
-<p>Trois modèles non-linéaires ont été testés, en plus d'une régression logistique comme baseline :</p>
-<table>
-<thead>
-<tr>
-<th>Modèle</th>
-<th>Recall test</th>
-<th>Précision test</th>
-<th>Overfitting</th>
-<th>Retenu</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Régression logistique (baseline)</td>
-<td>0.766</td>
-<td>0.439</td>
-<td>Non</td>
-<td>Non (linéaire)</td>
-</tr>
-<tr>
-<td>Random Forest</td>
-<td>0.766</td>
-<td>0.388</td>
-<td>Modéré</td>
-<td>Non</td>
-</tr>
-<tr>
-<td>XGBoost</td>
-<td>0.766</td>
-<td>0.418</td>
-<td>Marqué (recall train : 0.96)</td>
-<td>Non</td>
-</tr>
-<tr>
-<td><strong>CatBoost</strong></td>
-<td><strong>0.766</strong></td>
-<td><strong>0.439</strong></td>
-<td><strong>Non</strong></td>
-<td><strong>Oui</strong></td>
-</tr>
-</tbody>
-</table>
+<p>Trois modèles ont été testées en plus de Catboost : régression logistique, random forest, XGBoost.</p>
 <div class="admonition note">
 <p class="admonition-title">Pourquoi CatBoost ?</p>
 <p>La consigne exigeait un modèle non-linéaire. CatBoost est le seul à ne pas présenter
-d'overfitting significatif (recall train ≈ recall test), tout en égalant les meilleures
-performances sur le jeu de test. Il gère nativement les variables catégorielles et
-intègre une régularisation forte, sans nécessiter de StandardScaler.</p>
+d'overfitting significatif (recall train =env. recall test), tout en égalant les meilleures
+performances sur le jeu de test.</p>
 </div>
 <h2 id="gestion-du-desequilibre-de-classes">Gestion du déséquilibre de classes</h2>
-<p>Le dataset est déséquilibré : ~16% de départs (239/1470). Deux approches ont été comparées :</p>
-<ul>
-<li><strong>SMOTE</strong> (sur-échantillonnage synthétique) - utilisé pour LR et Random Forest</li>
-<li><strong><code>scale_pos_weight</code></strong> (pondération des classes) - utilisé pour CatBoost et XGBoost</li>
-</ul>
+<p>Le dataset est déséquilibré : env.16% de départs.</p>
 <p>CatBoost utilise <code>scale_pos_weight = n_négatifs / n_positifs</code> pour pénaliser davantage les faux négatifs.</p>
 <h2 id="metriques-finales">Métriques finales</h2>
 <p>Le modèle a été évalué au seuil de décision <strong>0.535</strong> (ajusté depuis le défaut 0.5 pour maximiser le recall) :</p>
@@ -944,18 +847,18 @@ intègre une régularisation forte, sans nécessiter de StandardScaler.</p>
 </tr>
 <tr>
 <td>F1-score</td>
-<td>0.563</td>
+<td>0.558</td>
 <td>Compromis recall / précision</td>
 </tr>
 <tr>
 <td>Faux négatifs</td>
 <td>11</td>
-<td>Départs non détectés - coût métier le plus élevé</td>
+<td>Départs non détectés : coût métier le plus élevé</td>
 </tr>
 <tr>
 <td>Faux positifs</td>
 <td>46</td>
-<td>Alertes inutiles - coût acceptable (entretien RH)</td>
+<td>Alertes inutiles : coût accepté</td>
 </tr>
 </tbody>
 </table>
@@ -964,68 +867,8 @@ intègre une régularisation forte, sans nécessiter de StandardScaler.</p>
 <div class="admonition warning">
 <p class="admonition-title">Pourquoi prioriser le recall ?</p>
 <p>Dans ce contexte, rater un départ (faux négatif) est plus coûteux que signaler à tort
-un employé qui reste (faux positif). Le coût de remplacement d'un employé est estimé
-à 6-9 mois de salaire ; le coût d'un entretien RH préventif est négligeable.</p>
+un employé qui reste (faux positif).</p>
 </div>
-<h2 id="feature-importance-shap">Feature importance (SHAP)</h2>
-<p>Les variables les plus influentes sur la prédiction, par ordre décroissant :</p>
-<ol>
-<li><code>heure_supplementaires</code> - <strong>facteur dominant</strong> : effectuer des heures sup multiplie fortement le risque</li>
-<li><code>ratio_evolution</code> - stagnation de poste associée à un risque accru</li>
-<li><code>ratio_relation_manager</code> - instabilité managériale corrélée au départ</li>
-<li><code>satisfaction_employee_nature_travail</code> - faible satisfaction des tâches</li>
-<li><code>annee_experience_totale</code> - les profils très expérimentés partent plus</li>
-</ol>
-<p>L'analyse SHAP (TreeExplainer) confirme que <code>heure_supplementaires</code> est la variable
-la plus déterminante, avec un effet directionnel fort : <code>True</code> pousse vers le départ.</p>
-<h2 id="hyperparametres-retenus">Hyperparamètres retenus</h2>
-<p>Sélectionnés par <code>RandomizedSearchCV</code> avec scoring <code>recall</code>, 5-fold cross-validation, 50 itérations :</p>
-<table>
-<thead>
-<tr>
-<th>Paramètre</th>
-<th>Valeur</th>
-<th>Rôle</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>iterations</code></td>
-<td>300</td>
-<td>Nombre d'arbres</td>
-</tr>
-<tr>
-<td><code>depth</code></td>
-<td>4</td>
-<td>Profondeur max des arbres</td>
-</tr>
-<tr>
-<td><code>learning_rate</code></td>
-<td>0.05</td>
-<td>Pas d'apprentissage</td>
-</tr>
-<tr>
-<td><code>l2_leaf_reg</code></td>
-<td>5</td>
-<td>Régularisation L2</td>
-</tr>
-<tr>
-<td><code>subsample</code></td>
-<td>0.8</td>
-<td>Fraction des données par arbre</td>
-</tr>
-<tr>
-<td><code>scale_pos_weight</code></td>
-<td>~5.15</td>
-<td>Ratio négatifs/positifs pour le déséquilibre</td>
-</tr>
-<tr>
-<td><code>random_seed</code></td>
-<td>42</td>
-<td>Reproductibilité</td>
-</tr>
-</tbody>
-</table>
 
 
 
