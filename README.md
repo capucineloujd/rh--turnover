@@ -151,11 +151,8 @@ Copier `.env.example` et renseigner les variables selon l'environnement cible.
 ## Déploiement
 
 ```
-GitHub (code)  →  CI/CD (GitHub Actions)  →  Render (API FastAPI)  →  Supabase (PostgreSQL)
+GitHub (code)  -->  CI/CD (GitHub Actions)  -->  Render (API FastAPI)  -->  Supabase (PostgreSQL)
 ```
-
-L'API est déployée sur **Render** via Docker et accessible à :
-**https://rh-turnover-api.onrender.com/docs**
 
 ### Composants
 
