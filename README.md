@@ -167,6 +167,8 @@ L'API est déployée sur **Render** via Docker et accessible à :
 | Modèle | Commité dans le repo (`app/model.pkl`) | Fichier léger, disponible au démarrage sans réentraînement |
 | Base de données | Supabase (PostgreSQL managé) | PostgreSQL managé gratuit, facile à connecter |
 
+![Preuve de déploiement Supabase](docs/supabase.png)
+
 ### Redéployer depuis zéro
 
 1. Créer un projet **Supabase** → récupérer les credentials (host, port, user, password, db name)
