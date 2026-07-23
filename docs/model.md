@@ -7,7 +7,7 @@ CSV (3 sources)
     │
     ▼
 1. CHARGEMENT     src/data/loader.py
-   Jointure des 3 fichiers sur id_employee → 1 DataFrame (1470 lignes)
+   Jointure des 3 fichiers sur id_employee --> 1 DataFrame (1470 lignes)
     │
     ▼
 2. PREPROCESSING  src/data/preprocessing.py
@@ -42,8 +42,7 @@ Trois ratios ont été créés pour capturer des dynamiques RH non directement o
 - `ratio_revenu_experience` : imputé par la **médiane** si `annee_experience_totale = 0` (le salaire ne peut pas être nul)
 
 ## Sélection de features
-
-Une sélection a été opérée en deux étapes :
+Opérée en deux étapes :
 
 1. **Feature importance CatBoost** (intrinsèque) : features avec importance < 1% identifiées
 2. **Permutation importance** (validation croisée) : croisement avec les features à contribution nulle ou négative sur le recall
