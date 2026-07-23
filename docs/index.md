@@ -29,7 +29,7 @@ GitHub (code)  --> CI/CD (GitHub Actions)  -->  Render (API FastAPI)  -->  Supab
 
 ## Navigation
 
-- [Pipeline ML et choix techniques](model.md) - comment le modèle a été construit et pourquoi CatBoost
-- [Maintenance et mise à jour](maintenance.md) - protocole pour réentraîner et monitorer le modèle
-- [Guide d'utilisation de l'API](api.md) - comment appeler `/predict`, exemples et règles d'encodage
-- [Documentation Swagger](https://rh-turnover-api.onrender.com/docs) - interface interactive de l'API
+- [Pipeline ML et choix techniques](model.md) : comment le modèle a été construit et pourquoi CatBoost
+- [Maintenance et mise à jour](maintenance.md) : protocole pour réentraîner et monitorer le modèle
+- [Guide d'utilisation de l'API](api.md) : comment appeler `/predict`, exemples et règles d'encodage
+- [Documentation Swagger](https://rh-turnover-api.onrender.com/docs) : interface interactive de l'API

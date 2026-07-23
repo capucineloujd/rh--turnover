@@ -43,7 +43,7 @@ Trois ratios ont été créés pour capturer des dynamiques RH non directement o
 
 ## Sélection de features
 
-Après encodage, 31 features sont disponibles. Une sélection a été opérée en deux étapes :
+Une sélection a été opérée en deux étapes :
 
 1. **Feature importance CatBoost** (intrinsèque) : features avec importance < 1% identifiées
 2. **Permutation importance** (validation croisée) : croisement avec les features à contribution nulle ou négative sur le recall

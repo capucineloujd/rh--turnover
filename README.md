@@ -127,6 +127,8 @@ uv run python query_db.py
 
 ## Tests
 
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
+
 ```bash
 # Lancer les tests
 uv run pytest tests/ -v
@@ -161,6 +163,8 @@ GitHub (code)  -->  CI/CD (GitHub Actions)  -->  Render (API FastAPI)  -->  Supa
 | API | Render (Docker) | Hébergement gratuit, déploiement automatique depuis GitHub |
 | Modèle | Commité dans le repo (`app/model.pkl`) | Fichier léger, disponible au démarrage sans réentraînement |
 | Base de données | Supabase (PostgreSQL managé) | PostgreSQL managé gratuit, facile à connecter |
+
+![Preuve de déploiement Supabase](docs/supabase.png)
 
 ### Redéployer depuis zéro
 
@@ -241,15 +245,6 @@ rh--turnover/
       ci-staging.yml  # Pipeline staging (develop)
       ci-prod.yml     # Pipeline prod (main)
 ```
-## Besoins analytiques
-
-Les prédictions du modèle sont stockées en base de données (`table predictions`) afin de permettre un suivi analytique dans le temps. Les indicateurs clés à monitorer sont :
-
-- Le taux d'alerte (ratio d'employés flaggés comme à risque)
-- L'évolution de la probabilité de départ moyenne
-- La confirmation des alertes sur les départs réels constatés
-
-Ces données peuvent être interrogées via `query_db.py` ou directement en SQL sur Supabase. Un tableau de bord RH (type Metabase ou Power BI) pourrait être connecté à la base pour visualiser ces indicateurs en temps réel.
 
 ## Roadmap
 
@@ -263,16 +258,6 @@ Ces données peuvent être interrogées via `query_db.py` ou directement en SQL 
 ## Contact
 
 Capucine Jaud - [GitHub](https://github.com/capucineloujd)
-
-## Contributing
-
-| Préfixe | Usage |
-|---------|-------|
-| `feature/nom` | Nouvelle fonctionnalité |
-| `data/nom` | Travail sur les données |
-| `fix/nom` | Correction de bug |
-
-nb. Tout changement passe par une pull request vers `develop`, qui doit être verte en CI avant de merger.
 
 ## Acknowledgments
 
