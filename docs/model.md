@@ -72,8 +72,8 @@ Le modèle a été évalué au seuil de décision **0.535** (ajusté depuis le d
 | **Recall** | **0.766** | Sur 47 départs réels, 36 sont détectés à l'avance |
 | Précision | 0.439 | Sur 82 alertes émises, 36 sont de vrais départs |
 | F1-score | 0.558 | Compromis recall / précision |
-| Faux négatifs | 11 | Départs non détectés - coût métier le plus élevé |
-| Faux positifs | 46 | Alertes inutiles - coût acceptable (entretien RH) |
+| Faux négatifs | 11 | Départs non détectés = coût métier le plus élevé |
+| Faux positifs | 46 | Alertes inutiles = coût accepté |
 
 ![Courbe Precision-Recall - comparaison des 4 modèles](pr_curve.png)
 
