@@ -127,6 +127,8 @@ uv run python query_db.py
 
 ## Tests
 
+![Coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)
+
 ```bash
 # Lancer les tests
 uv run pytest tests/ -v
