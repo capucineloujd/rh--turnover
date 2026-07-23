@@ -50,10 +50,11 @@ def build_features(data):
     # 4. VARIABLES CATÉGORIELLES
     # Nominales (pas d'ordre entre les modalités)
     cols_nominales = [
-        "genre", "statut_marital", "departement", "poste", "domaine_etude", "frequence_deplacement",
+        "genre", "statut_marital", "departement", "poste", "domaine_etude",
     ]
     # Ordinales
     cols_ordinales = [
+        "frequence_deplacement",
         "niveau_hierarchique_poste",
         "niveau_education",
         "note_evaluation_precedente",
