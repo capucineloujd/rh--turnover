@@ -52,7 +52,7 @@ def build_features(data):
     cols_nominales = [
         "genre", "statut_marital", "departement", "poste", "domaine_etude", "frequence_deplacement",
     ]
-    # Ordinales (ordre entre les modalités, mais intervalles non uniformes)
+    # Ordinales
     cols_ordinales = [
         "niveau_hierarchique_poste",
         "niveau_education",
