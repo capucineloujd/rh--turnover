@@ -43,21 +43,10 @@ Le principal facteur de démission identifié est les heures supplémentaires. L
 [![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?logo=supabase)](https://supabase.com/)
 [![uv](https://img.shields.io/badge/uv-package%20manager-DE5FE9)](https://github.com/astral-sh/uv)
 
-## Standards d'expérimentation ML
+## Approche ML
+Le dataset est issu d'une base de données privée pour une entreprise fictive. CatBoost a été retenu pour son bon compromis précision/recall sur ce jeu de données déséquilibré. La métrique principale est le recall : dans ce contexte, rater un départ (faux négatif) est plus coûteux que signaler à tort un employé qui reste. Le seuil de décision a été ajusté à 0.535 pour maximiser le recall tout en maintenant une précision acceptable. Un `random_state` fixe est utilisé dans tous les modules pour garantir la reproductibilité des résultats.
 
-**Dataset** : issu d'une base de données privée pour une entreprise fictive (fichiers CSV non versionnés).
 
-**Choix du modèle** : CatBoost a été retenu pour son bon compromis précision/recall sur ce jeu de données déséquilibré.
-
-**Métrique principale : recall**. Dans ce contexte métier, rater un employé qui va partir (faux négatif) est plus coûteux que signaler à tort un employé qui reste (faux positif). Le recall est donc prioritaire sur la précision.
-
-**Seuil de décision à 0.535** : le seuil par défaut de 0.5 a été ajusté pour maximiser le recall sur le jeu de test tout en maintenant une précision acceptable.
-
-**Split train/test** : 80/20 avec stratification sur la variable cible. Les hyperparamètres ont été ajustés manuellement en observant les métriques sur le jeu de validation.
-
-**Reproductibilité** : un `random_state` fixe est utilisé dans tous les modules (`src/models/train.py`) pour garantir des résultats identiques à chaque exécution.
-
----
 
 ## Installation
 
