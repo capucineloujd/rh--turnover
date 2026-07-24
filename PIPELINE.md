@@ -59,7 +59,7 @@ uv run pytest tests/ --cov=src --cov=app --cov-report=html
 - `.env.example` --> template versionné sur Git (sans les vraies valeurs)
 - `src/config.py` lit ces variables avec `python-dotenv`
 
-## 6. Pipeline CI/CD (`.github/workflows/ci.yml`)
+## 6. Pipeline CI/CD 
 Le pipeline se déclenche sur chaque `push` et `pull_request` vers `main` et exécute dans l'ordre :
 
 1. Lance un conteneur PostgreSQL
